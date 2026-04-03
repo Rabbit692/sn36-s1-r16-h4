@@ -212,8 +212,13 @@ WEBSITE_HINTS: dict[str, str] = {
         "Contact doctor form: opens when Contact button clicked on doctor card."
     ),
     "autostats": (
-        "Analytics dashboard. Charts, data tables, filter controls, export options. "
-        "Date range selectors, metric dropdowns."
+        "SITE: Blockchain/subnet analytics (like taostats). NAV: Subnets, Validators, Blocks, Transfers, Accounts. "
+        "Top-right: Connect Wallet button, Search button. "
+        "Subnets page: list of subnets with name, volume24h, emission. Click row for detail. Favorite button (star/heart) per row. "
+        "Validators page: list with rank, totalWeight. Click row for detail. "
+        "Blocks page: list with number, epoch, extrinsicsCount, eventsCount. Click row for detail. "
+        "Transfers page: list of transfers. Accounts page: list of accounts. "
+        "Wallet: Connect/Disconnect wallet modal with wallet_name options (SubWallet, Talisman, etc)."
     ),
     "autodiscord": (
         "Chat application. Server list, channels, messages, user search, "
@@ -300,6 +305,18 @@ TASK_PLAYBOOKS: dict[str, str] = {
     "SEARCH_APPOINTMENT": "PLAYBOOK: 1) Go to Appointments section. 2) Search/filter for matching appointments. 3) View results.",
     "REQUEST_QUICK_APPOINTMENT": "PLAYBOOK: 1) Find Quick Appointment button. 2) Fill form satisfying constraints. 3) Submit.",
     "VIEW_DOCTOR_EDUCATION": "PLAYBOOK: 1) Browse doctors list. 2) Find doctor matching ALL constraints. 3) Click on doctor's card. 4) Find Education tab/section. 5) Click it.",
+    "APPOINTMENT_BOOKED_SUCCESSFULLY": "PLAYBOOK: 1) Go to Appointments page. 2) Find available slot matching constraints (doctor_name, time, speciality). 3) Click Book. 4) Fill any required fields. 5) Confirm booking.",
+    "CONNECT_WALLET": "PLAYBOOK: 1) Click Connect Wallet button (top-right). 2) In the wallet modal, find the wallet matching wallet_name constraint. 3) Click to connect it.",
+    "DISCONNECT_WALLET": "PLAYBOOK: 1) Click the wallet/account button. 2) Click Disconnect button.",
+    "FAVORITE_SUBNET": "PLAYBOOK: 1) Navigate to Subnets page. 2) Find subnet matching constraint (name CONTAINS or NOT). 3) Click the favorite/star icon on that row.",
+    "VIEW_BLOCK": "PLAYBOOK: 1) Navigate to Blocks page. 2) Find block matching constraints (epoch, extrinsicsCount, number). 3) Click to view detail.",
+    "VIEW_SUBNET": "PLAYBOOK: 1) Navigate to Subnets page. 2) Find subnet matching constraints (volume24h, name). 3) Click to view detail.",
+    "VIEW_VALIDATOR": "PLAYBOOK: 1) Navigate to Validators page. 2) Find validator matching constraints (rank, totalWeight). 3) Click to view detail.",
+    "VIEW_HOTEL": "PLAYBOOK: 1) Browse hotel listings. 2) Find hotel matching constraints (host_name, reviews, rating, price). 3) Click to view detail.",
+    "BACK_TO_ALL_HOTELS": "PLAYBOOK: 1) If on a hotel detail page, click back/logo to return to listings. 2) Find hotel matching constraints.",
+    "PEOPLE_SELECTED": "PLAYBOOK: 1) Find the guest/people selector (dropdown or +/- buttons). 2) Select the number matching the constraint.",
+    "EMPTY_CART": "PLAYBOOK: 1) Navigate to cart page. 2) Find item matching constraints. 3) Click Remove/Delete for each item or Clear Cart button.",
+    "PLACE_ORDER": "PLAYBOOK: 1) Go to cart/checkout. 2) Fill required fields (phone, address, name). 3) Click Place Order/Submit.",
     "COMMENT_ON_POST": "PLAYBOOK: 1) Find a post in the feed. 2) Click the Comment button. 3) Type the EXACT comment text. 4) Submit.",
     "FOLLOW_PAGE": "PLAYBOOK: 1) Find the company page matching constraints. 2) Click the Follow button.",
     "UNFOLLOW_PAGE": "PLAYBOOK: 1) Find the company page. 2) Click Unfollow.",

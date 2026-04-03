@@ -54,13 +54,19 @@ def build_user_prompt(
     # --- Core task context ---
     parts.append(f"TASK: {prompt}")
 
-    site_line = f"TYPE:{task_type} SITE:{website or 'unknown'} STEP:{step_index} of 10"
+    site_line = f"TYPE:{task_type} SITE:{website or 'unknown'} STEP:{step_index} of 15"
     parts.append(site_line)
 
     # --- Urgency signal ---
-    remaining = max(1, 10 - step_index)
-    if remaining <= 3:
+    remaining = max(1, 15 - step_index)
+    if remaining <= 4:
         parts.append(f"WARNING: ONLY {remaining} STEPS LEFT - take the most direct action NOW.")
+
+    # --- Strategy hint based on step ---
+    if step_index == 0:
+        parts.append("STRATEGY: First navigate to the right page/section. Use list_cards tool if you need to find items matching constraints.")
+    elif step_index <= 2:
+        parts.append("STRATEGY: If items are visible, use list_cards or search_text to find the one matching constraints. Read text carefully for NOT/CONTAINS matching.")
 
     # --- Website hints ---
     if website_hint:
