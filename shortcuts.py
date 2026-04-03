@@ -169,20 +169,70 @@ def try_quick_click(prompt: str, url: str, seed: str | None, step: int) -> list[
         if re.search(r"book\s+(?:a\s+)?ride|request\s+ride|pickup\s+now|ride\s+now", t):
             return _click_xpath("//button[contains(translate(., 'BOOK', 'book'), 'book') or contains(translate(., 'RIDE', 'ride'), 'ride')]")
 
-    # Autohealth (text-based)
+    # Autohealth (0% -> needs heavy shortcuts)
     if port in _health_ports:
         if re.search(r"book\s+(?:an?\s+)?appointment|request\s+appointment|schedule.*appointment", t):
-            return _click_xpath("//button[contains(translate(., 'APPOINTMENT', 'appointment'), 'appointment') or contains(translate(., 'RESERVE', 'reserve'), 'reserv')]")
+            return _click_xpath("//button[contains(translate(., 'APPOINTMENT', 'appointment'), 'appointment') or contains(translate(., 'RESERVE', 'reserve'), 'reserv') or contains(translate(., 'BOOK', 'book'), 'book')]")
+        if re.search(r"doctors?\s+(?:page|list|section)|browse.*doctors?|find.*doctor|view.*doctors?", t):
+            return _click_xpath("//a[contains(translate(., 'DOCTORS', 'doctors'), 'doctor')]")
+        if re.search(r"appointments?\s+(?:page|list|section)|view.*appointments?|browse.*appointments?", t):
+            return _click_xpath("//a[contains(translate(., 'APPOINTMENTS', 'appointments'), 'appointment')]")
+        if re.search(r"prescriptions?\s+(?:page|list)|view.*prescriptions?", t):
+            return _click_xpath("//a[contains(translate(., 'PRESCRIPTIONS', 'prescriptions'), 'prescription')]")
+        if re.search(r"medical\s+analysis|analysis\s+page", t):
+            return _click_xpath("//a[contains(translate(., 'ANALYSIS', 'analysis'), 'analysis')]")
+        if re.search(r"contact.*doctor|open.*contact.*form", t):
+            return _click_xpath("//button[contains(translate(., 'CONTACT', 'contact'), 'contact')]")
 
-    # Autostats (text-based)
+    # Autostats (0% -> nav + wallet shortcuts)
     if port in _stats_ports:
         if re.search(r"connect.*wallet|authorize.*wallet", t):
-            return _click_xpath("//button[contains(translate(., 'WALLET', 'wallet'), 'wallet')]")
+            return _click_xpath("//button[contains(translate(., 'WALLET', 'wallet'), 'wallet') or contains(translate(., 'CONNECT', 'connect'), 'connect')]")
+        if re.search(r"disconnect.*wallet", t):
+            return _click_xpath("//button[contains(translate(., 'DISCONNECT', 'disconnect'), 'disconnect')]")
+        if re.search(r"subnets?\s+(?:page|list|section)|view.*subnets?|explore.*subnets?", t):
+            return _click_xpath("//a[contains(translate(., 'SUBNETS', 'subnets'), 'subnet')][1]")
+        if re.search(r"validators?\s+(?:page|list)|view.*validators?", t):
+            return _click_xpath("//a[contains(translate(., 'VALIDATORS', 'validators'), 'validator')][1]")
+        if re.search(r"blocks?\s+(?:page|list)|view.*blocks?", t):
+            return _click_xpath("//a[contains(translate(., 'BLOCKS', 'blocks'), 'block')][1]")
+        if re.search(r"transfers?\s+(?:page|list)|view.*transfers?", t):
+            return _click_xpath("//a[contains(translate(., 'TRANSFERS', 'transfers'), 'transfer')][1]")
+        if re.search(r"accounts?\s+(?:page|list)|view.*accounts?", t):
+            return _click_xpath("//a[contains(translate(., 'ACCOUNTS', 'accounts'), 'account')][1]")
+        if re.search(r"favorite.*subnet|add.*favorite", t):
+            return _click_xpath("//button[contains(translate(., 'FAVORITE', 'favorite'), 'favorit') or contains(@aria-label, 'favorite') or contains(@aria-label, 'Favorite')]")
 
     # Autolist (text-based)
     if port in _list_ports:
         if re.search(r"add\s+(?:a\s+)?task|create.*task|new\s+task", t):
             return _click_xpath("//button[contains(translate(., 'ADD TASK', 'add task'), 'add task')]")
+
+    # Autolodge (10% -> nav + FAQ)
+    _lodge_ports = {8007, 8107}
+    if port in _lodge_ports:
+        if re.search(r"stays|villas|browse.*stays", t):
+            return _click_xpath("//a[contains(translate(., 'STAYS', 'stays'), 'stays')]")
+        if re.search(r"popular", t):
+            return _click_xpath("//a[contains(translate(., 'POPULAR', 'popular'), 'popular')]")
+        if re.search(r"support|help", t):
+            return _click_xpath("//a[contains(translate(., 'SUPPORT', 'support'), 'support') or contains(translate(., 'HELP', 'help'), 'help')]")
+        if re.search(r"wishlist|favorites?|saved", t) and not re.search(r"add.*wishlist", t):
+            return _click_xpath("//a[contains(translate(., 'WISHLIST', 'wishlist'), 'wishlist') or contains(translate(., 'FAVORITES', 'favorites'), 'favorite')]")
+
+    # Autodelivery (11% -> search + quick order)
+    _delivery_ports = {8006, 8106}
+    if port in _delivery_ports:
+        if re.search(r"quick\s+order", t):
+            return _click_xpath("//button[contains(translate(., 'QUICK ORDER', 'quick order'), 'quick order')]")
+
+    # Autocinema (22% -> login flow, search, nav)
+    _cinema_ports = {8000, 8100}
+    if port in _cinema_ports:
+        if re.search(r"clear\s+filters?|reset\s+filters?", t):
+            return _click_xpath("//button[contains(translate(., 'CLEAR', 'clear'), 'clear')]")
+        if re.search(r"sort.*rating.*high|highest.*rating", t):
+            return None  # let LLM handle select dropdown
 
     return None
 
